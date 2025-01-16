@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import {
   Form,
@@ -9,20 +9,23 @@ import {
   Col,
   Alert,
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   // Состояния для формы авторизации
   const [authLogin, setAuthLogin] = useState("");
   const [authPassword, setAuthPassword] = useState("");
   const [authKey, setAuthKey] = useState("");
+  const navigate = useNavigate();
 
   // Состояния для формы регистрации
   const [regLogin, setRegLogin] = useState("");
   const [regPassword, setRegPassword] = useState("");
   const [regKey, setRegKey] = useState("");
+  const [regRole, setRegRole] = useState("");
   const [fullName, setFullName] = useState("");
+  const [regBalance, setRegBalance] = useState("");
   const [yearStartedDriving, setYearStartedDriving] = useState("");
-
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
@@ -30,7 +33,6 @@ function App() {
     e.preventDefault();
     setMessage("");
     setError("");
-
     try {
       const response = await fetch("http://localhost:3000/api/auth", {
         method: "POST",
@@ -44,8 +46,8 @@ function App() {
         }),
       });
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
+        navigate("/main");
         setMessage(data.message);
       } else {
         setError(data.error);
@@ -60,7 +62,6 @@ function App() {
     e.preventDefault();
     setMessage("");
     setError("");
-
     try {
       const response = await fetch("http://localhost:3000/api/users", {
         method: "POST",
@@ -71,13 +72,13 @@ function App() {
           login: regLogin,
           password: regPassword,
           key: regKey,
-          userId: Date.now(), // Простой способ создать уникальный userId
-          balance: 0, // Начальный баланс
-          role: "user", // Роль по умолчанию
+          balance: regBalance, // Начальный баланс
+          role: regRole, // Роль по умолчанию
           fullName,
           yearStartedDriving,
         }),
       });
+      console.log(response);
       const data = await response.json();
       if (response.ok) {
         setMessage(data.message);
@@ -139,6 +140,8 @@ function App() {
         </Col>
         <Col md={6}>
           <h3>Регистрация</h3>
+          {message && <Alert variant="success">{message}</Alert>}
+          {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleRegisterSubmit}>
             <Form.Group controlId="formFullName">
               <Form.Label>Полное имя</Form.Label>
@@ -179,6 +182,28 @@ function App() {
                 onChange={(e) => setRegPassword(e.target.value)}
                 required
               />
+            </Form.Group>
+            <Form.Group controlId="formRegPassword">
+              <Form.Label>Баланс</Form.Label>
+              <Form.Control
+                type="string"
+                placeholder="Введите баланс"
+                value={regBalance}
+                onChange={(e) => setRegBalance(e.target.value)}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formRegRole">
+              <Form.Label>Роль</Form.Label>
+              <Form.Select
+                value={regRole}
+                onChange={(e) => setRegRole(e.target.value)}
+                required
+              >
+                <option value="">Выберите роль</option>
+                <option value={"Driver"}>Водитель</option>
+                <option value={"DpsOfficer"}>ДПС</option>
+              </Form.Select>
             </Form.Group>
             <Form.Group controlId="formRegKey">
               <Form.Label>Ключ</Form.Label>
