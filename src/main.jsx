@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "./Main.jsx";
-import Drivers from "./entities/Drivers.jsx";
+import Entities from "./entities/Entities.jsx";
 import IssueFine from "./entities/IssueFine.jsx";
 import PayFine from "./entities/PayFine.jsx";
 import Profile from "./entities/Profile.jsx";
@@ -18,7 +18,7 @@ createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="*" element={<App />} />
-        <Route path="/drivers" element={<Drivers />} />
+        <Route path="/entities" element={<Entities />} />
         <Route path="/main" element={<Main />} />
         <Route path="/issue-fine" element={<IssueFine />} />
         <Route path="/pay-fine" element={<PayFine />} />

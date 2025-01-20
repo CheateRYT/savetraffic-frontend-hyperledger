@@ -4,22 +4,20 @@ import { Card, ListGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const { login } = useUser(); // Изменено на user, чтобы получить весь объект пользователя
+  const { login } = useUser();
   const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Login: " + login);
     if (!login) {
-      // Проверяем, существует ли пользователь и его логин
       navigate("/");
-      return; // Выходим из useEffect, если логина нет
+      return;
     }
 
     const getUser = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/driver/${login}` // Используем login для получения данных
+          `http://localhost:3000/api/driver/${login}`
         );
 
         if (!response.ok) {
@@ -27,18 +25,17 @@ const Profile = () => {
         }
 
         const result = await response.json();
-        setProfile(result); // Сохраняем данные профиля
+        setProfile(result);
       } catch (error) {
         console.error(error);
       }
     };
 
     getUser();
-  }, []); // Добавляем user и navigate в зависимости
+  }, []);
 
-  // Проверяем, загружены ли данные профиля
   if (!profile) {
-    return <div>Загрузка...</div>; // Можно добавить индикатор загрузки
+    return <div>Загрузка...</div>;
   }
 
   return (
@@ -54,6 +51,10 @@ const Profile = () => {
           </Card.Text>
           <Card.Text>
             <strong>Баланс:</strong> {profile.Balance} рублей
+          </Card.Text>
+          <Card.Text>
+            <strong>Роль:</strong>{" "}
+            {profile.Role === "DpsOfficer" ? "ДПС" : "Водитель"}
           </Card.Text>
           <Card.Text>
             <strong>Опыт вождения:</strong> {profile.Experience} лет

@@ -31,8 +31,8 @@ const Main = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/drivers">
-                Все водители
+              <Link className="nav-link" to="/entities">
+                Все сущности
               </Link>
             </li>
             <li className="nav-item">
