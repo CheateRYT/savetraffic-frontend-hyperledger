@@ -10,6 +10,7 @@ import {
   Alert,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "./context/UserProvider";
 
 function App() {
   // Состояния для формы авторизации
@@ -29,6 +30,8 @@ function App() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+  const { setLogin } = useUser(); // Исправлено
+
   const handleAuthSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
@@ -46,7 +49,11 @@ function App() {
         }),
       });
       const data = await response.json();
+
       if (response.ok) {
+        console.log(data.user.login);
+        setLogin(data.user.login);
+
         navigate("/main");
         setMessage(data.message);
       } else {
@@ -72,13 +79,12 @@ function App() {
           login: regLogin,
           password: regPassword,
           key: regKey,
-          balance: regBalance, // Начальный баланс
-          role: regRole, // Роль по умолчанию
+          balance: regBalance,
+          role: regRole,
           fullName,
           yearStartedDriving,
         }),
       });
-      console.log(response);
       const data = await response.json();
       if (response.ok) {
         setMessage(data.message);
@@ -183,7 +189,7 @@ function App() {
                 required
               />
             </Form.Group>
-            <Form.Group controlId="formRegPassword">
+            <Form.Group controlId="formRegBalance">
               <Form.Label>Баланс</Form.Label>
               <Form.Control
                 type="string"
