@@ -64,6 +64,9 @@ const Profile = () => {
           <Card.Text>
             <strong>Непогашенные штрафы:</strong> {profile.UnpaidFines}
           </Card.Text>
+          <Card.Text>
+            <strong>Дата выписки штрафа</strong> {profile.FineIssuedDate}
+          </Card.Text>
         </Card.Body>
         <ListGroup variant="flush">
           <ListGroup.Item>
@@ -72,8 +75,8 @@ const Profile = () => {
               <ul>
                 {profile.DrivingLicenses.map((license, index) => (
                   <li key={index}>
-                    Номер: {license.licenseNumber}, Категория:{" "}
-                    {license.category}, Дата истечения: {license.expiryDate}
+                    Номер: {license.Number}, Категория: {license.Category}, Дата
+                    истечения: {license.ExpiryDate}
                   </li>
                 ))}
               </ul>
@@ -87,9 +90,25 @@ const Profile = () => {
               <ul>
                 {profile.Vehicles.map((vehicle, index) => (
                   <li key={index}>
-                    Категория: {vehicle.vehicleCategory}, Рыночная стоимость:{" "}
-                    {vehicle.marketValue}, Период эксплуатации:{" "}
-                    {vehicle.exploitationPeriod}
+                    Категория: {vehicle.VehicleCategory}, Рыночная стоимость:{" "}
+                    {vehicle.MarketValue}, Период эксплуатации:{" "}
+                    {vehicle.ExploitationPeriod}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>Нет зарегистрированных транспортных средств.</p>
+            )}
+          </ListGroup.Item>
+
+          <ListGroup.Item>
+            <strong>Запросы:</strong>
+            {profile.Requests && profile.Requests.length > 0 ? (
+              <ul>
+                {profile.Requests.map((request, index) => (
+                  <li key={index}>
+                    Тип: {request.type}, Индекс: {request.requestIndex}, Статус:{" "}
+                    {request.status}
                   </li>
                 ))}
               </ul>

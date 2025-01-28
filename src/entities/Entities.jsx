@@ -64,6 +64,9 @@ const Entities = () => {
                       <br />
                       <strong>Неоплаченные штрафы:</strong> {driver.UnpaidFines}
                       <br />
+                      <strong>Дата выписки штрафа:</strong>{" "}
+                      {driver.FineIssuedDate}
+                      <br />
                       <strong>Год начала вождения:</strong>{" "}
                       {driver.YearStartedDriving || "Не указано"}
                     </>
@@ -78,9 +81,9 @@ const Entities = () => {
                         <ul>
                           {driver.DrivingLicenses.map((license, index) => (
                             <li key={index}>
-                              Номер: {license.licenseNumber}, Категория:{" "}
-                              {license.category}, Дата истечения:{" "}
-                              {license.expiryDate}
+                              Номер: {license.Number}, Категория:{" "}
+                              {license.Category}, Дата истечения:{" "}
+                              {license.ExpiryDate}
                             </li>
                           ))}
                         </ul>

@@ -5,19 +5,14 @@ import Main from "../Main";
 
 const IssueLicense = () => {
   const { login } = useUser();
-  const endpoint = `http://localhost:3000/api/drivers/${login}/vehicle/request`;
+  const endpoint = `http://localhost:3000/api/drivers/${login}/license/request`;
 
-  // Определяем метки для формы
-  const labels = ["Категория", "Рыночная стоимость", "Период эксплуатации"];
-  const nameForInputsToBackend = [
-    "vehicleCategory",
-    "marketValue",
-    "exploitationPeriod",
-  ];
+  const labels = ["Номер лицензии", "Категория"];
+  const nameForInputsToBackend = ["licenseNumber", "category"];
   return (
     <div className="container mt-5">
       <Main />
-      <h1>Регистрация транспортного средства</h1>
+      <h1>Запрос на получение лицензии</h1>
       <CustomForm
         endpoint={endpoint}
         labels={labels}
