@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Row, Container, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserProvider";
+import Main from "../Main";
 
 const Entities = () => {
   const [drivers, setDrivers] = useState([]);
@@ -22,6 +23,7 @@ const Entities = () => {
         }
         const data = await response.json();
         setDrivers(data);
+        console.log(data);
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -32,6 +34,7 @@ const Entities = () => {
 
   return (
     <Container>
+      <Main />
       <h1 className="mt-4">Список сущностей в системе</h1>
       {error && <Alert variant="danger">{error}</Alert>}
       <Row>
@@ -66,7 +69,6 @@ const Entities = () => {
                     </>
                   )}
                 </Card.Text>
-
                 {driver.login !== "bank" && (
                   <>
                     <Card.Text>
@@ -86,16 +88,30 @@ const Entities = () => {
                         <p>Нет водительских удостоверений.</p>
                       )}
                     </Card.Text>
-
                     <Card.Text>
                       <strong>Транспортные средства:</strong>
                       {driver.Vehicles && driver.Vehicles.length > 0 ? (
                         <ul>
                           {driver.Vehicles.map((vehicle, index) => (
                             <li key={index}>
-                              Категория: {vehicle.vehicleCategory}, Рыночная
-                              стоимость: {vehicle.marketValue}, Период
-                              эксплуатации: {vehicle.exploitationPeriod}
+                              Категория: {vehicle.Category}, Рыночная стоимость:{" "}
+                              {vehicle.MarketValue}, Период эксплуатации:{" "}
+                              {vehicle.ExploitationPeriod}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p>Нет зарегистрированных транспортных средств.</p>
+                      )}
+                    </Card.Text>
+                    <Card.Text>
+                      <strong>Запросы:</strong>
+                      {driver.Requests && driver.Requests.length > 0 ? (
+                        <ul>
+                          {driver.Requests.map((request, index) => (
+                            <li key={index}>
+                              Тип: {request.type}, Индекс:{" "}
+                              {request.requestIndex}, Статус: {request.status}
                             </li>
                           ))}
                         </ul>

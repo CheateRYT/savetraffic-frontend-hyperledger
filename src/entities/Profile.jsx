@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useUser } from "../context/UserProvider";
 import { Card, ListGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import Main from "../Main";
 
 const Profile = () => {
   const { login } = useUser();
@@ -40,6 +41,7 @@ const Profile = () => {
 
   return (
     <div className="container mt-5">
+      <Main />
       <Card>
         <Card.Body>
           <Card.Title>Профиль пользователя</Card.Title>

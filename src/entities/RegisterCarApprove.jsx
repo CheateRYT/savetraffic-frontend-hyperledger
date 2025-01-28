@@ -3,21 +3,21 @@ import { useUser } from "../context/UserProvider";
 import CustomForm from "../components/CustomForm";
 import Main from "../Main";
 
-const RegisterCar = () => {
+const RegisterCarApprove = () => {
   const { login } = useUser();
-  const endpoint = `http://localhost:3000/api/drivers/${login}/vehicle/request`;
+  const endpoint = `http://localhost:3000/api/officers/${login}/vehicle/approve`;
 
   // Определяем метки для формы
-  const labels = ["Категория", "Рыночная стоимость", "Период эксплуатации"];
+  const labels = ["Логин клиента", "Индекс запроса"];
   const nameForInputsToBackend = [
-    "vehicleCategory",
-    "marketValue",
+    "recipientLogin",
+    "requestIndex",
     "exploitationPeriod",
   ];
   return (
     <div className="container mt-5">
       <Main />
-      <h1>Регистрация транспортного средства</h1>
+      <h1>Подтверждение регистрации транспортного средства</h1>
       <CustomForm
         endpoint={endpoint}
         labels={labels}
@@ -27,4 +27,4 @@ const RegisterCar = () => {
   );
 };
 
-export default RegisterCar;
+export default RegisterCarApprove;

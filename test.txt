@@ -1,0 +1,57 @@
+import React from "react";
+import { useUser } from "../context/UserProvider";
+import CustomForm from "../components/CustomForm";
+import Main from "../Main";
+import { Button, Form } from "react-bootstrap";
+
+const RegisterCar = () => {
+  const { login } = useUser();
+  const endpoint = `http://localhost:3000/api/drivers/${login}/vehicle/request`;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const vehicleData = {
+      login,
+      vehicleCategory: formData.get("vehicleCategory"),
+      marketValue: formData.get("marketValue"),
+      exploitationPeriod: formData.get("exploitationPeriod"),
+    };
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(vehicleData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Ошибка при отправке данных");
+      }
+      console.log(response);
+      const result = await response.json();
+      console.log("Успешно зарегистрировано:", result);
+    } catch (error) {
+      console.error("Ошибка:", error);
+    }
+  };
+  return (
+    <div className="container mt-5">
+      <Main />
+      <h1>Регистрация транспортного средства</h1>
+      <Form onSubmit={handleSubmit}>
+        <Form.Control name="vehicleCategory" placeholder="Категория" />
+        <Form.Control name="marketValue" placeholder="Рыночная стоимость" />
+        <Form.Control
+          name="exploitationPeriod"
+          placeholder="Время эксплуатации"
+        />
+        <Button type="submit">Зарегистрировать</Button>
+      </Form>
+    </div>
+  );
+};
+
+export default RegisterCar;

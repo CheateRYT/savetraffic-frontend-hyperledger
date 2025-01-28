@@ -30,7 +30,7 @@ function App() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const { setLogin } = useUser(); // Исправлено
+  const { setLogin, setRole } = useUser(); // Исправлено
 
   const handleAuthSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +53,7 @@ function App() {
       if (response.ok) {
         console.log(data.user.login);
         setLogin(data.user.login);
-
+        setRole(data.user.Role);
         navigate("/main");
         setMessage(data.message);
       } else {
@@ -70,11 +70,13 @@ function App() {
     setMessage("");
     setError("");
     try {
+      console.log(regRole);
       const response = await fetch("http://localhost:3000/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify({
           login: regLogin,
           password: regPassword,

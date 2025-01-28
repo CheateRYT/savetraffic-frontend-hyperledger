@@ -6,9 +6,9 @@ const UserContext = createContext();
 // Провайдер для контекста
 export const UserProvider = ({ children }) => {
   const [login, setLogin] = useState("");
-
+  const [role, setRole] = useState("");
   return (
-    <UserContext.Provider value={{ login, setLogin }}>
+    <UserContext.Provider value={{ login, setLogin, role, setRole }}>
       {children}
     </UserContext.Provider>
   );
